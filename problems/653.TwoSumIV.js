@@ -43,8 +43,6 @@ var findTarget = function(root, k){
 
     inOrderTraversal(root);
 
-    console.log(sortedArray)
-
     var left = 0;
     var right = sortedArray.length - 1;
 
