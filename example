@@ -1,0 +1,26 @@
+image_size = 500 x 700
+
+Size(#dots) = 40
+
+estimate:
+    size of each square:
+        grid_square(k x k)
+        k = approx (500 / 40) = 12.5
+        odd k = either(11 or 13)
+        k = 13
+
+rows = 500 / 13 =  38.46 (integer)
+cols = 700 / 13 = 53.85 (integer)
+
+image has to be reduced to rows cols 
+imresize(...) specify only one dimension
+
+walk through each pixel, make it a dot, put it into a cell array
+
+radius proportional to 'darkness' ( 1 - pixel val)
+dia = 2 * rad + 1
+square(radius) prop to 1 - p
+
+
+
+
