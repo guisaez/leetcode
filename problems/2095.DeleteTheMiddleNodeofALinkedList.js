@@ -42,8 +42,6 @@ Node 0 with value 2 is the only node remaining after removing node 1.
  * @return {ListNode}
  */
 
-// Time Complexity O(n)
-// Space Complexity O(1)
 
 var deleteMiddle = function(head) {
     
@@ -64,9 +62,6 @@ var deleteMiddle = function(head) {
     
     return head;
 };
-
-// Time Complexity: O(n)
-// Space Complexity: O(n)
 
 var deleteMiddleWithArray = function(head){
     var current = head;
