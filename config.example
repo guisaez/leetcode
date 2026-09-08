@@ -1,0 +1,5 @@
+%{
+    leetcode_session: "SESSION",
+    leetcode_csrf_token: "CSRF"
+}
+
