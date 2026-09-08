@@ -39,6 +39,17 @@ This creates `problems/0001-two-sum/` with the problem statement in
 LeetCode's starter code where available).
 
 
+Run a solution against LeetCode's example test cases (does **not** submit):
+
+```bash
+elixir scripts/run_solution.exs two-sum            # defaults to elixir
+elixir scripts/run_solution.exs two-sum --lang go
+elixir scripts/run_solution.exs 0001 --lang python
+elixir scripts/run_solution.exs 0001 --lang js
+```
+
+Supported `--lang` values: `elixir`, `go`, `python`, `js` / `javascript`.
+
 ## Layout
 
 ```
@@ -50,6 +61,7 @@ problems/
     notes.md         # your own notes, optional
 scripts/
   common.exs         # shared GraphQL client (Req-based)
-  fetch_problem.exs   # scaffold a problem folder
+  fetch_problem.exs  # scaffold a problem folder
+  run_solution.exs   # run solution against LeetCode's example test cases
 ```
 
