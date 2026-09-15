@@ -85,32 +85,52 @@ defmodule LeetcodeTracker.FetchProblem do
       if File.exists?(path) do
         IO.puts("skip (exists): #{path}")
       else
-        stub = Map.get(snippets, lc_slug, "// no starter snippet available for #{lang}\n")
+        raw = Map.get(snippets, lc_slug, "// no starter snippet available for #{lang}\n")
+        stub = prepare_stub(raw, lang)
         File.write!(path, stub <> "\n")
         IO.puts("wrote: #{path}")
+        write_support_files(folder, lang)
       end
     end)
 
-    tests_path = Path.join(folder, "tests.exs")
+    IO.puts("\nScaffolded #{folder}")
+  end
 
-    unless File.exists?(tests_path) do
-      tests = """
-      defmodule SolutionTest do
-        use ExUnit.Case
+  defp prepare_stub(stub, "go"), do: "package main\n\n" <> stub
 
-        # test "example 1" do
-        #   assert Solution.function_name(input) == expected_output
-        # end
-      end
-      """
+  defp prepare_stub(stub, "erlang") do
+    exports =
+      stub
+      |> String.split("\n")
+      |> Enum.filter(&String.starts_with?(&1, "-spec "))
+      |> Enum.map(fn spec_line ->
+        name = Regex.run(~r/-spec (\w+)\(/, spec_line, capture: :all_but_first) |> List.first()
+        # each argument has exactly one "Var ::" pattern; return type never uses "::"
+        arity = length(Regex.scan(~r/\w+ ::/, spec_line))
+        "#{name}/#{arity}"
+      end)
+      |> Enum.join(", ")
 
-      File.write!(tests_path, tests)
-      IO.puts("wrote: #{tests_path}")
+    "-module(solution).\n-export([#{exports}]).\n\n" <> stub
+  end
+
+  defp prepare_stub(stub, _lang), do: stub
+
+  defp write_support_files(folder, "go") do
+    mod_path = Path.join(folder, "go.mod")
+    unless File.exists?(mod_path) do
+      File.write!(mod_path, "module problem\n\ngo 1.23\n")
+      IO.puts("wrote: #{mod_path}")
     end
 
-    IO.puts("\nScaffolded #{folder}")
-    IO.puts("Run tests with: elixir scripts/run_tests.exs #{q["titleSlug"]}")
+    test_path = Path.join(folder, "solution_test.go")
+    unless File.exists?(test_path) do
+      File.write!(test_path, "package main\n\nimport \"testing\"\n\nfunc TestSolution(t *testing.T) {\n\tt.Skip(\"TODO: add test cases\")\n}\n")
+      IO.puts("wrote: #{test_path}")
+    end
   end
+
+  defp write_support_files(_folder, _lang), do: :ok
 
   defp html_to_text(html) do
     html

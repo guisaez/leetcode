@@ -1,3 +1,6 @@
+-module(solution).
+-export([largest_overlap/2]).
+
 -spec largest_overlap(Img1 :: [[integer()]], Img2 :: [[integer()]]) -> integer().
 largest_overlap(Img1, Img2) ->
     M1 = to_coord_list(Img1),

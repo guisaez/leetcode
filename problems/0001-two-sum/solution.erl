@@ -1,3 +1,6 @@
+-module(solution).
+-export([two_sum/2]).
+
 -spec two_sum(Nums :: [integer()], Target :: integer()) -> [integer()].
 two_sum(Nums, Target) ->
     two_sum_(Nums, Target, #{}, 0).

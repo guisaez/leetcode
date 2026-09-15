@@ -1,3 +1,6 @@
+-module(solution).
+-export([count_commas/1]).
+
 -spec count_commas(N :: integer()) -> integer().
 count_commas(N) when N < 1000 ->
     0;

@@ -1,3 +1,6 @@
+-module(solution).
+-export([total_numbers/1]).
+
 -spec total_numbers(Digits :: [integer()]) -> integer().
 total_numbers(Digits) ->
     FreqMap = lists:foldl(fun(Digit, Acc) -> Acc#{Digit => maps:get(Digit, Acc, 0) + 1} end, #{}, Digits),

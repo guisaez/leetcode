@@ -1,3 +1,6 @@
+-module(solution).
+-export([average_of_subtree/1]).
+
 %% Definition for a binary tree node.
 %%
 % -record(tree_node, {val = 0 :: integer(),

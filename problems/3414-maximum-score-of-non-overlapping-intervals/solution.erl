@@ -1,3 +1,6 @@
+-module(solution).
+-export([maximum_weight/1]).
+
 -spec maximum_weight(Intervals :: [[integer()]]) -> [integer()].
 maximum_weight(Intervals) ->
     N = length(Intervals),
