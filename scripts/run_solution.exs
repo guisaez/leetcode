@@ -58,7 +58,11 @@ defmodule LeetcodeTracker.RunSolution do
     unless File.exists?(solution_path), do: raise("no solution.#{ext} in #{folder}")
 
     slug = folder |> Path.basename() |> String.replace(~r/^\d+-/, "")
-    code = File.read!(solution_path)
+
+    code =
+      solution_path
+      |> File.read!()
+      |> then(fn code -> if lang == "erlang", do: strip_erlang_boilerplate(code), else: code end)
 
     IO.puts("Fetching problem metadata for: #{slug}")
     data = Common.graphql(@question_query, %{"titleSlug" => slug})
@@ -77,6 +81,13 @@ defmodule LeetcodeTracker.RunSolution do
       result = poll(interpret_id)
       print_result(result)
     end
+  end
+
+  defp strip_erlang_boilerplate(code) do
+    code
+    |> String.split("\n")
+    |> Enum.reject(&(&1 =~ ~r/^\s*-(module|export)\(.*\)\.\s*$/))
+    |> Enum.join("\n")
   end
 
   defp interpret(slug, question_id, lc_lang, code, test_cases) do
